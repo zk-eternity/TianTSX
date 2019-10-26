@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.zk.dao.GoodsDAO">
+    <cache type="com.zk.cache.MybatisCache"/>
+    <insert id="insertGoods">
+        insert into ttsx.goods(name, times, picture, price, intro, typeid, banner)
+        values (#{name},#{times},#{picture},#{price},#{intro},#{typeid},#{banner})
+    </insert>
+
+    <select id="queryAllGoods" resultType="com.zk.pojo.Goods">
+        select * from ttsx.goods
+    </select>
+
+
+    <select id="queryGoodsByName" resultType="com.zk.pojo.Goods">
+        select * from ttsx.goods where name like '%${name}%'
+    </select>
+
+    <select id="queryGoodsById" resultType="com.zk.pojo.Goods">
+        select * from ttsx.goods where goods.id=#{id}
+    </select>
+
+    <select id="queryByTypeid" resultType="com.zk.pojo.Goods">
+        select * from ttsx.goods where typeid=#{typeid}
+        <if test="on=='go'">
+            order by ttsx.goods.price
+        </if>
+        <if test="on!='go'">
+            order by ttsx.goods.times
+        </if>
+    </select>
+
+
+</mapper>
